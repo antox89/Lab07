@@ -721,7 +721,6 @@ public class UniFlix extends javax.swing.JFrame {
             
             modeloArbol.reload();
             
-            
             ap.cargarArchivo();
             ap.setPelicula(pel);
             ap.escribirArhivo();

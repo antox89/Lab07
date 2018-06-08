@@ -10,21 +10,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 
-public class adminPelicula {
+public class adminSerie {
     
-    private ArrayList<Pelicula> listaPeliculas=new ArrayList();
-    private File archivo=null;
+    private ArrayList<Serie> listaSeries = new ArrayList();
+    private File archivo = null;
     
-    public adminPelicula(String path){
+    public adminSerie(String path){
         this.archivo=new File(path);
     }
 
-    public ArrayList<Pelicula> getListaPeliculas() {
-        return listaPeliculas;
+    public ArrayList<Serie> getListaSeries() {
+        return listaSeries;
     }
 
-    public void setListaPeliculas(ArrayList<Pelicula> listaPeliculas) {
-        this.listaPeliculas = listaPeliculas;
+    public void setListaSeries(ArrayList<Serie> listaSeries) {
+        this.listaSeries = listaSeries;
     }
 
     public File getArchivo() {
@@ -35,13 +35,13 @@ public class adminPelicula {
         this.archivo = archivo;
     }
     
-    public void setPelicula(Pelicula pel){
-        this.listaPeliculas.add(pel);
+    public void setSerie(Serie ser){
+        this.listaSeries.add(ser);
     }
 
     @Override
     public String toString() {
-        return "adminPelicula{" + "listaPeliculas=" + listaPeliculas + '}';
+        return "adminSerie{" + "listaSeries=" + listaSeries + '}';
     }
     
     public void escribirArhivo() throws IOException{
@@ -50,7 +50,7 @@ public class adminPelicula {
         try{
             fw=new FileWriter(archivo, true);
             bw=new BufferedWriter(fw);
-            for(Pelicula pt: listaPeliculas){
+            for(Serie pt: listaSeries){
                 bw.write(pt.getNombre()+";");
                 bw.write(pt.getId()+";");
                 bw.write(pt.getDuracion()+";");
@@ -69,14 +69,14 @@ public class adminPelicula {
     
     public void cargarArchivo(){
         Scanner sc=null;
-        listaPeliculas=new ArrayList();
+        listaSeries=new ArrayList();
         if(archivo.exists()){
             try{
                 sc=new Scanner(archivo);
                 sc.useDelimiter(";");
                 while(sc.hasNext()){
-                    listaPeliculas.add(new Pelicula(sc.nextInt(),sc.nextInt(),
-                            sc.next(),sc.next(),sc.next(),sc.next(),sc.next()));
+                    listaSeries.add(new Serie(sc.nextInt(),sc.nextInt(),sc.nextInt(),
+                            sc.nextInt(),sc.next(),sc.next(),sc.next(),sc.next()));
                 }
             }catch(Exception e){
                 

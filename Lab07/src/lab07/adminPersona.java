@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Scanner;
 
 
 public class adminPersona {
@@ -52,9 +54,10 @@ public class adminPersona {
             bw=new BufferedWriter(fw);
             
             for(Persona t : listaPersona){
-                bw.write(t.getCorreo());
-                bw.write(t.getPassword());
-                bw.write(t.getTarjeta());
+                bw.write(t.getCorreo()+";");
+                bw.write(t.getPassword()+";");
+                bw.write(t.getTarjeta()+";");
+                bw.write(t.getNacimiento()+";");
             }
             bw.flush();
         }catch(Exception e){
@@ -62,6 +65,23 @@ public class adminPersona {
         }
         fw.close();
         bw.close();
+    }
+    
+    public void cargarArchivo(){
+        Scanner sc=null;
+        listaPersona=new ArrayList();
+        if(archivo.exists()){
+            try{
+                sc=new Scanner(archivo);
+                sc.useDelimiter(";");
+                while(sc.hasNext()){
+                    listaPersona.add(new Persona(/*sc.next(),sc.next(),sc.next(),sc.nextInt()*/));
+                }
+            }catch(Exception e){
+                
+            }
+            sc.close();
+        }
     }
 
 }
