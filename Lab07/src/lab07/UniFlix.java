@@ -678,20 +678,52 @@ public class UniFlix extends javax.swing.JFrame {
         productora=tf_productora.getText();
         director=tf_director.getText();
         
-        Pelicula p= new Pelicula(id, rating, nombre, categoria, duracion, productora, director);
+        Pelicula pel= new Pelicula(id, rating, nombre, categoria, duracion, productora, director);
         
         try {
-            
+            /*
             DefaultTreeModel m = (DefaultTreeModel)jt_movies.getModel();
             DefaultMutableTreeNode raiz = (DefaultMutableTreeNode)m.getRoot();
             
             DefaultMutableTreeNode nodo_movie;
-            nodo_movie = new DefaultMutableTreeNode(p);
+            nodo_movie = new DefaultMutableTreeNode(pel);
             raiz.add(nodo_movie);
-            m.reload();
+            m.reload();*/
+            DefaultTreeModel modeloArbol
+                    = (DefaultTreeModel) jt_movies.getModel();
+            
+            DefaultMutableTreeNode raiz
+                    = (DefaultMutableTreeNode) modeloArbol.getRoot();
+            
+            int centinela = -1;
+            
+            for (int i = 0; i <raiz.getChildCount(); i++) {
+                
+                if(raiz.getChildAt(i).toString().equals(categoria)){
+                    //si ya existe le agrega la persona
+                    DefaultMutableTreeNode p
+                            = new DefaultMutableTreeNode(pel);
+                    
+                    ((DefaultMutableTreeNode)raiz.getChildAt(i)).add(p);
+                    centinela=1;
+                    
+                }
+            }
+            if(centinela ==-1){
+                DefaultMutableTreeNode n 
+                        = new DefaultMutableTreeNode(categoria);
+                DefaultMutableTreeNode p
+                        = new DefaultMutableTreeNode(pel);
+                n.add(p);
+                raiz.add(n);
+                            
+            }
+            
+            modeloArbol.reload();
+            
             
             ap.cargarArchivo();
-            ap.setPelicula(p);
+            ap.setPelicula(pel);
             ap.escribirArhivo();
             
             tf_movieID.setText("");
