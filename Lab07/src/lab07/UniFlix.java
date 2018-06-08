@@ -224,13 +224,13 @@ public class UniFlix extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        cb_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Terror", "Comedia", "Aventura", "Acción", "Suspenso", "Sci-Fi" }));
+        cb_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione una categoría...", "Terror", "Comedia", "Aventura", "Acción", "Suspenso", "Sci-Fi" }));
 
         jsp_rating.setModel(new javax.swing.SpinnerNumberModel(1, 1, 5, 1));
 
-        cb_idiomas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Español", "English", "Italiano", "Deutsch", "Svenska" }));
+        cb_idiomas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un idioma...", "Español", "English", "Italiano", "Deutsch", "Svenska" }));
 
-        cb_subs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Español", "English", "Italiano", "Deutsch", "Svenska" }));
+        cb_subs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Elija un subtítulo...", "Español", "English", "Italiano", "Deutsch", "Svenska" }));
 
         jl_comments.setModel(new DefaultListModel());
         jScrollPane2.setViewportView(jl_comments);
@@ -259,14 +259,14 @@ public class UniFlix extends javax.swing.JFrame {
                                     .addComponent(tf_movieName, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tf_movieID, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jsp_rating, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 109, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cb_idiomas, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cb_categoria, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cb_subs, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cb_subs, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cb_idiomas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cb_categoria, 0, 201, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                         .addComponent(jLabel10)
                         .addGap(51, 51, 51))))
         );
@@ -729,6 +729,8 @@ public class UniFlix extends javax.swing.JFrame {
             jsp_rating.setValue(0);
             tf_movieName.setText("");
             cb_categoria.setSelectedIndex(0);
+            cb_idiomas.setSelectedIndex(0);
+            cb_subs.setSelectedIndex(0);
             tf_actor.setText("");
             tf_productora.setText("");
             tf_director.setText("");
