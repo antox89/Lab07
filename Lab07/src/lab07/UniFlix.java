@@ -1,8 +1,13 @@
 
 package lab07;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -27,7 +32,7 @@ public class UniFlix extends javax.swing.JFrame {
         tf_userLogin = new javax.swing.JTextField();
         tf_passLogin = new javax.swing.JPasswordField();
         bt_login = new javax.swing.JButton();
-        jd_admin = new javax.swing.JDialog();
+        jd_content = new javax.swing.JDialog();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -56,9 +61,12 @@ public class UniFlix extends javax.swing.JFrame {
         tf_director = new javax.swing.JTextField();
         tf_actor = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTree1 = new javax.swing.JTree();
+        jt_movies = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jpm_arbolMovies = new javax.swing.JPopupMenu();
+        jmi_modificar = new javax.swing.JMenuItem();
+        jmi_eliminar = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jmb_main = new javax.swing.JMenuBar();
         jm_archivo = new javax.swing.JMenu();
@@ -183,7 +191,7 @@ public class UniFlix extends javax.swing.JFrame {
                 .addComponent(jLabel12)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel13)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         cb_categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Terror", "Comedia", "Aventura", "Acción", "Suspenso", "Sci-Fi" }));
@@ -264,10 +272,20 @@ public class UniFlix extends javax.swing.JFrame {
         );
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Movies");
-        jTree1.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane1.setViewportView(jTree1);
+        jt_movies.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jt_movies.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jt_moviesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jt_movies);
 
         jButton1.setText("Guardar");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -292,8 +310,8 @@ public class UniFlix extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap(14, Short.MAX_VALUE))
@@ -314,22 +332,28 @@ public class UniFlix extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("TV Shows", jPanel3);
 
-        javax.swing.GroupLayout jd_adminLayout = new javax.swing.GroupLayout(jd_admin.getContentPane());
-        jd_admin.getContentPane().setLayout(jd_adminLayout);
-        jd_adminLayout.setHorizontalGroup(
-            jd_adminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jd_adminLayout.createSequentialGroup()
+        javax.swing.GroupLayout jd_contentLayout = new javax.swing.GroupLayout(jd_content.getContentPane());
+        jd_content.getContentPane().setLayout(jd_contentLayout);
+        jd_contentLayout.setHorizontalGroup(
+            jd_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_contentLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 867, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(35, Short.MAX_VALUE))
         );
-        jd_adminLayout.setVerticalGroup(
-            jd_adminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_adminLayout.createSequentialGroup()
+        jd_contentLayout.setVerticalGroup(
+            jd_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_contentLayout.createSequentialGroup()
                 .addContainerGap(32, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 485, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
+
+        jmi_modificar.setText("Modificar");
+        jpm_arbolMovies.add(jmi_modificar);
+
+        jmi_eliminar.setText("Eliminar");
+        jpm_arbolMovies.add(jmi_eliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("UniFlix 1.0");
@@ -355,8 +379,13 @@ public class UniFlix extends javax.swing.JFrame {
         });
         jm_archivo.add(jmi_login);
 
-        jmi_cuenta.setText("Cuenta");
+        jmi_cuenta.setText("Contenido");
         jmi_cuenta.setEnabled(false);
+        jmi_cuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_cuentaActionPerformed(evt);
+            }
+        });
         jm_archivo.add(jmi_cuenta);
 
         jmi_logout.setText("Sign Out");
@@ -414,6 +443,73 @@ public class UniFlix extends javax.swing.JFrame {
             login();
         }
     }//GEN-LAST:event_tf_userLoginKeyPressed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        adminPelicula ap=new adminPelicula("./movies.txt");
+        int id,rating;
+        String nombre, categoria, duracion,productora,director;
+        
+        id=Integer.parseInt(tf_movieID.getText());
+        rating=Integer.parseInt(jsp_rating.getValue().toString());
+        nombre=tf_movieName.getText();
+        categoria=cb_categoria.getSelectedItem().toString();
+        duracion=tf_duracion.getText();
+        productora=tf_productora.getText();
+        director=tf_director.getText();
+        
+        Pelicula p= new Pelicula(id, rating, nombre, categoria, duracion, productora, director);
+        
+        try {
+            
+            DefaultTreeModel m = (DefaultTreeModel)jt_movies.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode)m.getRoot();
+            
+            DefaultMutableTreeNode nodo_movie;
+            nodo_movie = new DefaultMutableTreeNode(p);
+            raiz.add(nodo_movie);
+            m.reload();
+            
+            ap.cargarArchivo();
+            ap.setPelicula(p);
+            ap.escribirArhivo();
+            
+            tf_movieID.setText("");
+            jsp_rating.setValue(0);
+            tf_movieName.setText("");
+            cb_categoria.setSelectedIndex(0);
+            tf_actor.setText("");
+            tf_productora.setText("");
+            tf_director.setText("");
+            tf_duracion.setText("");
+            
+            
+            JOptionPane.showMessageDialog(jd_content, 
+                    "Película agregada con éxito!","Agregar Películas",JOptionPane.INFORMATION_MESSAGE);
+            
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(jd_content,"Error no se guardaron","Error",JOptionPane.WARNING_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jmi_cuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_cuentaActionPerformed
+        jd_content.pack();
+        jd_content.setModal(true);
+        jd_content.setLocationRelativeTo(this);
+        jd_content.setVisible(true);
+    }//GEN-LAST:event_jmi_cuentaActionPerformed
+
+    private void jt_moviesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jt_moviesMouseClicked
+        
+        if(evt.isMetaDown()){
+            int row=jt_movies.getClosestRowForLocation(evt.getX(), evt.getY());
+            jt_movies.setSelectionRow(row);
+            
+            Object objeto=jt_movies.getSelectionPath().getLastPathComponent();
+            nodo_seleccionado=(DefaultMutableTreeNode)objeto;
+        }
+        
+    }//GEN-LAST:event_jt_moviesMouseClicked
 
     public void login(){
         if(tf_passLogin.getText().equals(clave)&&tf_userLogin.getText().equals(admin)){
@@ -490,17 +586,20 @@ public class UniFlix extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTree jTree1;
-    private javax.swing.JDialog jd_admin;
+    private javax.swing.JDialog jd_content;
     private javax.swing.JDialog jd_login;
     private javax.swing.JList<String> jl_comments;
     private javax.swing.JMenu jm_archivo;
     private javax.swing.JMenuBar jmb_main;
     private javax.swing.JMenuItem jmi_cuenta;
+    private javax.swing.JMenuItem jmi_eliminar;
     private javax.swing.JMenuItem jmi_login;
     private javax.swing.JMenuItem jmi_logout;
+    private javax.swing.JMenuItem jmi_modificar;
     private javax.swing.JMenuItem jmi_salir;
+    private javax.swing.JPopupMenu jpm_arbolMovies;
     private javax.swing.JSpinner jsp_rating;
+    private javax.swing.JTree jt_movies;
     private javax.swing.JTextField tf_actor;
     private javax.swing.JTextField tf_director;
     private javax.swing.JTextField tf_duracion;
@@ -511,4 +610,6 @@ public class UniFlix extends javax.swing.JFrame {
     private javax.swing.JTextField tf_userLogin;
     // End of variables declaration//GEN-END:variables
     String admin="admin", clave="admin123";
+    DefaultMutableTreeNode nodo_seleccionado;
+    Pelicula movie_seleccionada;
 }
