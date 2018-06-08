@@ -353,6 +353,11 @@ public class UniFlix extends javax.swing.JFrame {
         jpm_arbolMovies.add(jmi_modificar);
 
         jmi_eliminar.setText("Eliminar");
+        jmi_eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_eliminarActionPerformed(evt);
+            }
+        });
         jpm_arbolMovies.add(jmi_eliminar);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -507,9 +512,38 @@ public class UniFlix extends javax.swing.JFrame {
             
             Object objeto=jt_movies.getSelectionPath().getLastPathComponent();
             nodo_seleccionado=(DefaultMutableTreeNode)objeto;
+            
+            if(nodo_seleccionado.getUserObject()instanceof Pelicula){
+                movie_seleccionada=(Pelicula)nodo_seleccionado.getUserObject();
+                jpm_arbolMovies.show(evt.getComponent(),evt.getX(),evt.getY());
+            }
         }
         
     }//GEN-LAST:event_jt_moviesMouseClicked
+
+    private void jmi_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarActionPerformed
+        adminPelicula ap = new adminPelicula("./movies.txt");
+        
+        
+        try {
+            ap.cargarArchivo();
+        
+            int response = JOptionPane.showConfirmDialog(this, "Seguro eliminar la película?",
+                    "Confirm", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+
+            if (response == JOptionPane.OK_OPTION){
+                DefaultTreeModel m 
+                        = (DefaultTreeModel)jt_movies.getModel();
+                m.removeNodeFromParent(nodo_seleccionado);
+                m.reload();
+                ap.getListaPeliculas().remove(m);
+            }
+            ap.escribirArhivo();
+        } catch (IOException ex) {
+            
+        }
+        
+    }//GEN-LAST:event_jmi_eliminarActionPerformed
 
     public void login(){
         if(tf_passLogin.getText().equals(clave)&&tf_userLogin.getText().equals(admin)){
